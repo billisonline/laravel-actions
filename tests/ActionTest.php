@@ -4,7 +4,7 @@ namespace BYanelli\Actions\Tests;
 
 use Action;
 
-class ActionFacadeTest extends TestCase
+class ActionTest extends TestCase
 {
     public function testClosureAction()
     {
@@ -19,5 +19,12 @@ class ActionFacadeTest extends TestCase
         $val = Action::call('testClosureAction', [true]);
 
         $this->assertTrue($val);
+    }
+
+    public function testInvokableAction()
+    {
+        $val = Action::call('testInvokableAction');
+
+        $this->assertEquals('invokable result', $val);
     }
 }

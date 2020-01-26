@@ -3,29 +3,30 @@
 namespace BYanelli\Actions\Tests;
 
 use BYanelli\Actions\Action;
-use BYanelli\Actions\ActionManager;
-use Illuminate\Config\Repository;
+use BYanelli\Actions\Tests\TestApp\Providers\ActionServiceProvider;
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Bootstrap\RegisterFacades;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
+    /**
+     * @var Application
+     */
+    protected $app;
+
     public function configureApp()
     {
-        $app = Application::setInstance(new Application(__DIR__.DIRECTORY_SEPARATOR.'/TestApp'));
-
-        $app->instance('config', $config = new Repository([
-            'app' => [
-                'aliases' => [
+        $this->app = (
+            (new LaravelApplicationBuilder)
+                ->withBasePath(__DIR__.DIRECTORY_SEPARATOR.'TestApp')
+                ->withFacades([
                     'Action' => Action::class,
-                ]
-            ]
-        ]));
-
-        $app->instance('action_manager', new ActionManager($app));
-
-        (new RegisterFacades())->bootstrap($app);
+                ])
+                ->withServiceProviders([
+                    ActionServiceProvider::class,
+                ])
+                ->build()
+        );
     }
 
     public function setUp()

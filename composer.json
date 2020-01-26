@@ -27,7 +27,7 @@
     "autoload-dev": {
         "psr-4": {
             "BYanelli\\Actions\\Tests\\" : "tests/",
-            "BYanelli\\Actions\\Tests\\TestApp\\" : "tests/app/"
+            "BYanelli\\Actions\\Tests\\TestApp\\" : "tests/TestApp/app/"
         }
     },
     "scripts": {

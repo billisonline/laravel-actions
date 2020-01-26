@@ -26,7 +26,7 @@ class ActionManager
         $this->bindings[$name] = $action;
     }
 
-    public function call(string $name, array $params)
+    public function call(string $name, array $params=[])
     {
         if (!isset($this->bindings[$name])) {
             throw new \Exception;
