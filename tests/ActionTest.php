@@ -8,30 +8,30 @@ class ActionTest extends TestCase
 {
     public function testClosureAction()
     {
-        Action::bind('testClosureAction', function ($param) {
-            if ($param) {
-                return true;
-            }
-
-            return false;
+        Action::bind('testClosureAction', function (bool $foo, bool $bar) {
+            return ($foo != $bar);
         });
 
-        $val = Action::call('testClosureAction', [true]);
+        $val = Action::testClosureAction(true, false);
 
         $this->assertTrue($val);
     }
 
     public function testInvokableAction()
     {
-        $val = Action::call('testInvokableAction');
+        $val = Action::testInvokableAction();
 
         $this->assertEquals('invokable result', $val);
     }
 
-    public function testCallActionByMagicMethod()
+    public function testCallActionWithContainer()
     {
-        $val = Action::testInvokableAction();
+        Action::bind('calledWithContainer', function (int $foo, int $bar) {
+            return ($foo == 1) && ($bar == 2);
+        });
 
-        $this->assertEquals('invokable result', $val);
+        $val = Action::make('calledWithContainer')->callWith(['bar' => 2, 'foo' => 1]);
+
+        $this->assertTrue($val);
     }
 }

@@ -28,15 +28,7 @@ class ActionManager
 
     public function call(string $name, array $params=[])
     {
-        if (!isset($this->bindings[$name])) {
-            throw new \Exception;
-        }
-
-        $action = $this->bindings[$name];
-
-        $callable = $this->makeCallable($action);
-
-        return $this->app->call($callable, $params);
+        return $this->make($name)->call($params);
     }
 
     private function makeCallable($action): callable
@@ -61,5 +53,23 @@ class ActionManager
     public function __call($name, $arguments)
     {
         return $this->call($name, $arguments);
+    }
+
+    /**
+     * @param string $name
+     * @return ActionCallable|callable
+     * @throws \Exception
+     */
+    public function make(string $name): callable
+    {
+        if (!isset($this->bindings[$name])) {
+            throw new \Exception;
+        }
+
+        $action = $this->bindings[$name];
+
+        $callable = $this->makeCallable($action);
+
+        return new ActionCallable($callable, $this->app);
     }
 }
