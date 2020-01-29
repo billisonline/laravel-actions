@@ -27,4 +27,11 @@ class ActionTest extends TestCase
 
         $this->assertEquals('invokable result', $val);
     }
+
+    public function testCallActionByMagicMethod()
+    {
+        $val = Action::testInvokableAction();
+
+        $this->assertEquals('invokable result', $val);
+    }
 }

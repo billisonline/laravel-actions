@@ -58,5 +58,8 @@ class ActionManager
         return $action;
     }
 
-
+    public function __call($name, $arguments)
+    {
+        return $this->call($name, $arguments);
+    }
 }
